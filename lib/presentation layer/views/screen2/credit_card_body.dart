@@ -5,7 +5,7 @@ import 'package:stripe_payment/presentation%20layer/views/screen2/payment_method
 import 'package:stripe_payment/presentation%20layer/views/screen3/thank_views.dart';
 
 class CreditCardBody extends StatefulWidget {
-  CreditCardBody({super.key});
+  const CreditCardBody({super.key});
 
   @override
   State<CreditCardBody> createState() => _CreditCardBodyState();
@@ -35,14 +35,14 @@ class _CreditCardBodyState extends State<CreditCardBody> {
                 if (formkey.currentState!.validate()) {
                   formkey.currentState!.save();
                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ThankViews();
+                  return const ThankViews();
                 }));
                   
                 } else {
                   auto = AutovalidateMode.always;
                 }
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ThankViews();
+                  return const ThankViews();
                 }));
               },
             ),

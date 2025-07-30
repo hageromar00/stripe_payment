@@ -12,18 +12,19 @@ class ContainThank extends StatelessWidget {
       width: double.infinity,
       // height: 670,
       decoration: ShapeDecoration(
-        color: Color.fromARGB(255, 224, 222, 222),
+        color: const Color.fromARGB(255, 224, 222, 222),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(right: 12, left: 12),
+        // padding: const EdgeInsets.only(right: 12, left: 12),
+        padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
         child: Column(
           children: [
-            const SizedBox(
-              height: 25,
-            ),
+            // const SizedBox(
+            //   height: 25,
+            // ),
             Text(
               'Thank you!',
               style: Styles.style25,
@@ -69,10 +70,51 @@ class ContainThank extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-          const  ConContainCard()
+            const ConContainCard(),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * .1,
+            ),
+            const BarCode(),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * .1 - 50,
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class BarCode extends StatelessWidget {
+  const BarCode({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Image.asset('assets/images/Vector.png'),
+        // Icon(
+        //   FontAwesomeIcons.barcode,
+        //   size: 40,
+        // ),
+        Container(
+          width: 100,
+          height: 50,
+          decoration: ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: const BorderSide(color: Colors.green),
+            ),
+          ),
+          child: Center(
+            child: Text(
+              'PAID',
+              style: Styles.style24.copyWith(color: Colors.green),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

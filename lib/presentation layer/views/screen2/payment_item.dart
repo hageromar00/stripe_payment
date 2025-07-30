@@ -18,7 +18,7 @@ class PaymentItem extends StatelessWidget {
             BoxShadow(
               blurRadius: 8,
               offset: const Offset(1, 2),
-              color: Isactive ? Color(0xFF34A853) : Colors.white,
+              color: Isactive ? const Color(0xFF34A853) : Colors.white,
             ),
           ],
           shape: RoundedRectangleBorder(

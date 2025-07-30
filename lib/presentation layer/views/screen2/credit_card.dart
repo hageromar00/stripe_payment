@@ -27,7 +27,7 @@ class CreditCard extends StatelessWidget {
           style: Styles.style25,
         ),
       ),
-      body: Padding(
+      body: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: CreditCardBody(),
       ),

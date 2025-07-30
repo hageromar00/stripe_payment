@@ -8,8 +8,9 @@ class ThankViews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        centerTitle: true,
+        backgroundColor: Colors.transparent,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -22,7 +23,7 @@ class ThankViews extends StatelessWidget {
           ),
         ),
       ),
-      body: ThankViewBody(),
+      body: Transform.translate(offset: const Offset(0, 47), child: const ThankViewBody()),
     );
   }
 }
