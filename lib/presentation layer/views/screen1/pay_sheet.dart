@@ -44,7 +44,7 @@ class PaySheet extends StatelessWidget {
                           {
                             "name": "Apple",
                             "quantity": 4,
-                            "price": '10',
+                            "price": "10",
                             "currency": "USD"
                           },
                           {
