@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen1/custom_button.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen1/order_info.dart';
-import 'package:stripe_payment/presentation%20layer/views/screen2/credit_card.dart';
+import 'package:stripe_payment/presentation%20layer/views/screen1/pay_sheet.dart';
 
 class MyCardBody extends StatelessWidget {
   const MyCardBody({super.key});
@@ -56,9 +56,14 @@ class MyCardBody extends StatelessWidget {
         CustomButton(
           text: 'Complete Payment',
           onPress: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const CreditCard();
-            }));
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return const PaySheet();
+                });
+            // Navigator.push(context, MaterialPageRoute(builder: (context) {
+            //   return const CreditCard();
+            // }));
           },
         ),
         const SizedBox(

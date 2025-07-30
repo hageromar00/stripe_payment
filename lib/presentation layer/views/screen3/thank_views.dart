@@ -23,7 +23,8 @@ class ThankViews extends StatelessWidget {
           ),
         ),
       ),
-      body: Transform.translate(offset: const Offset(0, 47), child: const ThankViewBody()),
+      body: Transform.translate(
+          offset: const Offset(0, 44), child: const ThankViewBody()),
     );
   }
 }
