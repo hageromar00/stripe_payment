@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: const Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: MyCardBody(),
       ),
     );
