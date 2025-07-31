@@ -18,7 +18,7 @@ class _CreditCardBodyState extends State<CreditCardBody> {
     AutovalidateMode auto = AutovalidateMode.disabled;
     return CustomScrollView(
       slivers: [
-        const SliverToBoxAdapter(child: PaymentMethods()),
+        // const SliverToBoxAdapter(child: PaymentMethods()),
         SliverToBoxAdapter(
           child: CustomCreditCard(
             auto: auto,

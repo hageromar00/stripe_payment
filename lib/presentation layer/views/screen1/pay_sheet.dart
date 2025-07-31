@@ -12,8 +12,26 @@ import 'package:stripe_payment/presentation%20layer/views/screen1/custom_button.
 import 'package:stripe_payment/presentation%20layer/views/screen2/payment_methods.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen3/thank_views.dart';
 
-class PaySheet extends StatelessWidget {
+class PaySheet extends StatefulWidget {
   const PaySheet({super.key});
+
+  @override
+  State<PaySheet> createState() => _PaySheetState();
+}
+
+class _PaySheetState extends State<PaySheet> {
+  bool isPaypal = false;
+  updatePayment({required int indx}) {
+    if (indx == 0) {
+      isPaypal = false;
+    }
+    else{
+      isPaypal=true;
+    }
+    setState(() {
+      
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,77 +40,25 @@ class PaySheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const PaymentMethods(),
+           PaymentMethods(updatemethod:updatePayment,),
           const SizedBox(
             height: 10,
           ),
-          // CustomButtonSheet(),
-          CustomButton(
-            text: 'PAY',
-            onPress: () {
-              var transcationData = getTransctionData();
-              excutepaypal(context, transcationData);
-            },
+          CustomButtonSheet(
+            ispaypal: isPaypal,
           ),
+          // CustomButton(
+          //   text: 'PAY',
+          //   onPress: () {
+          //     var transcationData = getTransctionData();
+          //     excutepaypal(context, transcationData);
+          //   },
+          // ),
           const SizedBox(
             height: 10,
           ),
         ],
       ),
     );
-  }
-
-  void excutepaypal(BuildContext context,
-      ({AmountModel amount, ItemListModel itemList}) transcationData) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (BuildContext context) => PaypalCheckoutView(
-        sandboxMode: true,
-        clientId:
-           ApiKey.clientPaypal,
-        secretKey:
-            ApiKey.SecretPayPal,
-        transactions: [
-          {
-            "amount": transcationData.amount.toJson(),
-            "description": "The payment transaction description.",
-            "item_list": transcationData.itemList.toJson()
-          }
-        ],
-        note: "Contact us for any questions on your order.",
-        onSuccess: (Map params) async {
-          log("onSuccess: $params");
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            return const ThankViews();
-          }));
-        },
-        onError: (error) {
-          log("onError: $error");
-          Navigator.pop(context);
-        },
-        onCancel: () {
-          print('cancelled:');
-          Navigator.pop(context);
-        },
-      ),
-    ));
-  }
-
-  ({AmountModel amount, ItemListModel itemList}) getTransctionData() {
-    var amount = AmountModel(
-      currency: "USD",
-      details: Details(
-        subtotal: "100",
-        shipping: "0",
-        shippingDiscount: 0,
-      ),
-      total: "100",
-    );
-    List<Item> orders = [
-      Item(name: "Apple", quantity: 4, price: "10", currency: "USD"),
-      Item(name: "Pineapple", quantity: 5, price: "12", currency: "USD"),
-    ];
-    var itemList = ItemListModel(items: orders);
-    return (amount: amount, itemList: itemList);
   }
 }

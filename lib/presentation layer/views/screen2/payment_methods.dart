@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen2/payment_item.dart';
 
 class PaymentMethods extends StatefulWidget {
-  const PaymentMethods({super.key});
+  const PaymentMethods({super.key, required this.updatemethod});
+  final Function({required int indx}) updatemethod;
 
   @override
   State<PaymentMethods> createState() => _PaymentMethodsState();
@@ -11,7 +12,7 @@ class PaymentMethods extends StatefulWidget {
 class _PaymentMethodsState extends State<PaymentMethods> {
   List<String> item = [
     'assets/images/card.svg',
-    'assets/images/pay.svg',
+    // 'assets/images/pay.svg',
     'assets/images/paypal.svg'
   ];
   int active = 0;
@@ -25,8 +26,9 @@ class _PaymentMethodsState extends State<PaymentMethods> {
           itemBuilder: (context, indx) {
             return GestureDetector(
                 onTap: () {
+                  active = indx;
                   setState(() {
-                    active = indx;
+                    widget.updatemethod(indx: active);
                   });
                 },
                 child: Padding(

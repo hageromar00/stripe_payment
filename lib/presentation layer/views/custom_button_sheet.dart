@@ -1,12 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
+import 'package:stripe_payment/core/utils/api_key.dart';
+import 'package:stripe_payment/data%20layer/models/amount_model/amount_model.dart';
+import 'package:stripe_payment/data%20layer/models/amount_model/details.dart';
+import 'package:stripe_payment/data%20layer/models/item_list_model/item.dart';
+import 'package:stripe_payment/data%20layer/models/item_list_model/item_list_model.dart';
 import 'package:stripe_payment/data%20layer/models/payment_input_model.dart';
 import 'package:stripe_payment/presentation%20layer/view_model/payment/payment_cubit.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen1/custom_button.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen3/thank_views.dart';
 
 class CustomButtonSheet extends StatelessWidget {
-  const CustomButtonSheet({super.key});
+  const CustomButtonSheet({super.key,required this.ispaypal});
+  final bool ispaypal;
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +24,13 @@ class CustomButtonSheet extends StatelessWidget {
         if (state is PaymentSuccess) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
-            return ThankViews();
+            return const ThankViews();
           }));
         } else if (state is PaymentFail) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.errMessage)));
-          print('haasgd');
+          // print('haasgd');
         }
       },
       builder: (context, state) {
@@ -29,17 +38,81 @@ class CustomButtonSheet extends StatelessWidget {
           isload: state is PaymentLoad ? true : false,
           text: 'PAY',
           onPress: () {
-            PaymentIntentInputModel model = PaymentIntentInputModel(
+            if(ispaypal){
+                var transcationData = getTransctionData();
+            excutepaypal(context, transcationData);
+            }
+            else{
+                PaymentIntentInputModel model = PaymentIntentInputModel(
               amount: 100,
               currrncy: 'USD',
               customerID: 'cus_SmWmUQdkKwkAqp',
             );
             BlocProvider.of<PaymentCubit>(context).givePayment(model);
+            }
+            // PaymentIntentInputModel model = PaymentIntentInputModel(
+            //   amount: 100,
+            //   currrncy: 'USD',
+            //   customerID: 'cus_SmWmUQdkKwkAqp',
+            // );
+            // BlocProvider.of<PaymentCubit>(context).givePayment(model);
             // var transcationData = getTransctionData();
             // excutepaypal(context, transcationData);
           },
         );
       },
     );
+  }
+
+  void excutepaypal(BuildContext context,
+      ({AmountModel amount, ItemListModel itemList}) transcationData) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (BuildContext context) => PaypalCheckoutView(
+        sandboxMode: true,
+        clientId: ApiKey.clientPaypal,
+        secretKey: ApiKey.SecretPayPal,
+        transactions: [
+          {
+            "amount": transcationData.amount.toJson(),
+            "description": "The payment transaction description.",
+            "item_list": transcationData.itemList.toJson()
+          }
+        ],
+        note: "Contact us for any questions on your order.",
+        onSuccess: (Map params) async {
+          log("onSuccess: $params");
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            return const ThankViews();
+          }));
+        },
+        onError: (error) {
+          log("onError: $error");
+          Navigator.pop(context);
+        },
+        onCancel: () {
+          print('cancelled:');
+          Navigator.pop(context);
+        },
+      ),
+    ));
+  }
+
+  ({AmountModel amount, ItemListModel itemList}) getTransctionData() {
+    var amount = AmountModel(
+      currency: "USD",
+      details: Details(
+        subtotal: "90",
+        shipping: "0",
+        shippingDiscount: 0,
+      ),
+      total: "90",
+    );
+    List<Item> orders = [
+      Item(name: "Apple", quantity: 4, price: "10", currency: "USD"),
+      Item(name: "Pineapple", quantity: 5, price: "10", currency: "USD"),
+    ];
+    var itemList = ItemListModel(items: orders);
+    return (amount: amount, itemList: itemList);
   }
 }
