@@ -11,10 +11,11 @@ import 'package:stripe_payment/data%20layer/models/item_list_model/item_list_mod
 import 'package:stripe_payment/data%20layer/models/payment_input_model.dart';
 import 'package:stripe_payment/presentation%20layer/view_model/payment/payment_cubit.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen1/custom_button.dart';
+import 'package:stripe_payment/presentation%20layer/views/screen1/my_card_body.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen3/thank_views.dart';
 
 class CustomButtonSheet extends StatelessWidget {
-  const CustomButtonSheet({super.key,required this.ispaypal});
+  const CustomButtonSheet({super.key, required this.ispaypal});
   final bool ispaypal;
 
   @override
@@ -38,17 +39,16 @@ class CustomButtonSheet extends StatelessWidget {
           isload: state is PaymentLoad ? true : false,
           text: 'PAY',
           onPress: () {
-            if(ispaypal){
-                var transcationData = getTransctionData();
-            excutepaypal(context, transcationData);
-            }
-            else{
-                PaymentIntentInputModel model = PaymentIntentInputModel(
-              amount: 100,
-              currrncy: 'USD',
-              customerID: 'cus_SmWmUQdkKwkAqp',
-            );
-            BlocProvider.of<PaymentCubit>(context).givePayment(model);
+            if (ispaypal) {
+              var transcationData = getTransctionData();
+              excutepaypal(context, transcationData);
+            } else {
+              PaymentIntentInputModel model = PaymentIntentInputModel(
+                amount: 50.97,
+                currrncy: 'USD',
+                customerID: 'cus_SmWmUQdkKwkAqp',
+              );
+              BlocProvider.of<PaymentCubit>(context).givePayment(model);
             }
             // PaymentIntentInputModel model = PaymentIntentInputModel(
             //   amount: 100,
@@ -81,14 +81,34 @@ class CustomButtonSheet extends StatelessWidget {
         note: "Contact us for any questions on your order.",
         onSuccess: (Map params) async {
           log("onSuccess: $params");
-          Navigator.pushReplacement(context,
+          Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(builder: (context) {
-            return const ThankViews();
-          }));
+            return ThankViews();
+          }), (route) {
+            if (route.settings.name == '/') {
+              return true;
+            } else {
+              return false;
+            }
+          });
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(builder: (context) {
+          //     return const ThankViews();
+          //   }),
+          // );
         },
         onError: (error) {
           log("onError: $error");
-          Navigator.pop(context);
+          // Navigator.pop(context);
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (context) {
+            return MyCardBody();
+          }), (route) {
+            return false;
+          });
+                ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(error)));
         },
         onCancel: () {
           print('cancelled:');
@@ -102,15 +122,15 @@ class CustomButtonSheet extends StatelessWidget {
     var amount = AmountModel(
       currency: "USD",
       details: Details(
-        subtotal: "90",
+        subtotal: "50.97",
         shipping: "0",
         shippingDiscount: 0,
       ),
-      total: "90",
+      total: "50.97",
     );
     List<Item> orders = [
       Item(name: "Apple", quantity: 4, price: "10", currency: "USD"),
-      Item(name: "Pineapple", quantity: 5, price: "10", currency: "USD"),
+      Item(name: "Pineapple", quantity: 1, price: "10.97", currency: "USD"),
     ];
     var itemList = ItemListModel(items: orders);
     return (amount: amount, itemList: itemList);

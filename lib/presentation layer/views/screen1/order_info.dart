@@ -36,7 +36,7 @@ class OrderInfo extends StatelessWidget {
         ),
         const Spacer(),
         Text(
-          r'$' '$value',
+          value,
           style: Styles.stylesemibold18,
         )
       ],

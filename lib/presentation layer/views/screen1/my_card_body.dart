@@ -64,7 +64,7 @@ class MyCardBody extends StatelessWidget {
                 builder: (context) {
                   return  BlocProvider(
                     create: (context) => PaymentCubit(CheckRepoImpl()),
-                    child: PaySheet(),
+                    child:const PaySheet(),
                   );
                 });
             // Navigator.push(context, MaterialPageRoute(builder: (context) {
