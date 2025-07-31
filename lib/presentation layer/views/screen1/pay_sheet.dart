@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
+import 'package:stripe_payment/core/utils/api_key.dart';
 import 'package:stripe_payment/data%20layer/models/amount_model/amount_model.dart';
 import 'package:stripe_payment/data%20layer/models/amount_model/details.dart';
 import 'package:stripe_payment/data%20layer/models/item_list_model/item.dart';
@@ -16,7 +17,7 @@ class PaySheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -25,14 +26,14 @@ class PaySheet extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          CustomButtonSheet(),
-          // CustomButton(
-          //   text: 'PAY',
-          //   onPress: () {
-          //     // var transcationData = getTransctionData();
-          //     // excutepaypal(context, transcationData);
-          //   },
-          // ),
+          // CustomButtonSheet(),
+          CustomButton(
+            text: 'PAY',
+            onPress: () {
+              var transcationData = getTransctionData();
+              excutepaypal(context, transcationData);
+            },
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -47,9 +48,9 @@ class PaySheet extends StatelessWidget {
       builder: (BuildContext context) => PaypalCheckoutView(
         sandboxMode: true,
         clientId:
-            "AYZcFJEE93wOCbmzlIm1gpkOzpYQwW6lDMEyOM7C3DLJTu6XeUUqCWvgY1Rxf8ajIgEwSR64M27Yh2JI",
+           ApiKey.clientPaypal,
         secretKey:
-            "EC5ejoH7Q20wp9fc9CuYJc6W6vTnlD3n7O0BeeK0wmKjKe9h__m8BQYjVCclyAucZ7D58Gr8OE4SLMOp",
+            ApiKey.SecretPayPal,
         transactions: [
           {
             "amount": transcationData.amount.toJson(),

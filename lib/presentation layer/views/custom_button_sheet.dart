@@ -29,12 +29,12 @@ class CustomButtonSheet extends StatelessWidget {
           isload: state is PaymentLoad ? true : false,
           text: 'PAY',
           onPress: () {
-            // PaymentIntentInputModel model = PaymentIntentInputModel(
-            //   amount: 100,
-            //   currrncy: 'USD',
-            //   customerID: 'cus_SmWmUQdkKwkAqp',
-            // );
-            // BlocProvider.of<PaymentCubit>(context).givePayment(model);
+            PaymentIntentInputModel model = PaymentIntentInputModel(
+              amount: 100,
+              currrncy: 'USD',
+              customerID: 'cus_SmWmUQdkKwkAqp',
+            );
+            BlocProvider.of<PaymentCubit>(context).givePayment(model);
             // var transcationData = getTransctionData();
             // excutepaypal(context, transcationData);
           },
