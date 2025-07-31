@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:stripe_payment/domain%20layer/check_repo_impl.dart';
+import 'package:stripe_payment/presentation%20layer/view_model/payment/payment_cubit.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen1/custom_button.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen1/order_info.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen1/pay_sheet.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyCardBody extends StatelessWidget {
   const MyCardBody({super.key});
@@ -59,7 +62,10 @@ class MyCardBody extends StatelessWidget {
             showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return const PaySheet();
+                  return  BlocProvider(
+                    create: (context) => PaymentCubit(CheckRepoImpl()),
+                    child: PaySheet(),
+                  );
                 });
             // Navigator.push(context, MaterialPageRoute(builder: (context) {
             //   return const CreditCard();
