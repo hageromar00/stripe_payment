@@ -10,28 +10,46 @@ import 'package:stripe_payment/data%20layer/models/payment_mehods_model/payment_
 class StripeService {
   final ApiService apiservice = ApiService();
   Future<PaymentMehodsModel> createPayment(
-      PaymentIntendInputModel payment) async {
+      PaymentIntentInputModel payment) async {
+    //     var response = await apiservice.post(
+    //     body: payment.toJson(),
+    //     contenttype: Headers.formUrlEncodedContentType,
+    //     url: 'https://api.stripe.com/v1/payment_intents',
+    //     token: ApiKey.secretkey);
+    // var paymentmodel = PaymentMehodsModel.fromJson(response.data); //parse
+    // return paymentmodel;
     var createpayment = await apiservice.post(
         body: payment.toJson(),
         url: 'https://api.stripe.com/v1/payment_intents',
-        token: ApiKey.secret,
-        conttype: Headers.formUrlEncodedContentType);
+        token: ApiKey.secretkey,
+        contenttype: Headers.formUrlEncodedContentType);
     var paymodel = PaymentMehodsModel.fromJson(createpayment.data);
     return paymodel;
   }
 
-  Future<Ephemeral> createEpheKey({required String customid}) async {
-    var createpayment = await apiservice.post(
-        body: customid,
+  Future<Ephemeral> createEpheKey({required String customerid}) async {
+        var response = await apiservice.post(
+        body: {'customer': customerid},
+        contenttype: Headers.formUrlEncodedContentType,
         url: 'https://api.stripe.com/v1/ephemeral_keys',
-        token: ApiKey.secret,
-        conttype: Headers.formUrlEncodedContentType,
+        token: ApiKey.secretkey,
         head: {
-          'Authorization': "Bearer ${ApiKey.secret}",
-          "Stripe-Version": "2025-06-30.basil"
+          'Authorization': "Bearer ${ApiKey.secretkey}",
+          'Stripe-Version': '2025-06-30.basil'
         });
-    var ephemKey = Ephemeral.fromJson(createpayment.data);
-    return ephemKey;
+    var ephmeralkey = Ephemeral.fromJson(response.data); //parse
+    return ephmeralkey;
+    // var createpayment = await apiservice.post(
+    //     body: customid,
+    //     url: 'https://api.stripe.com/v1/ephemeral_keys',
+    //     token: ApiKey.secretkey,
+    //     contenttype: Headers.formUrlEncodedContentType,
+    //     header: {
+    //       'Authorization': "Bearer ${ApiKey.secretkey}",
+    //       "Stripe-Version": "2025-06-30.basil"
+    //     });
+    // var ephemKey = Ephemeral.fromJson(createpayment.data);
+    // return ephemKey;
   }
 
   Future initPaymentSheet(PayInit pay) async {
@@ -49,9 +67,9 @@ class StripeService {
     await Stripe.instance.presentPaymentSheet();
   }
 
-  Future MakePayment(PaymentIntendInputModel payment) async {
+  Future MakePayment(PaymentIntentInputModel payment) async {
     var createpayment = await createPayment(payment);
-    var createEphKey = await createEpheKey(customid: payment.customerId);
+    var createEphKey = await createEpheKey(customerid: payment.customerID);
     var pay = PayInit(
       secret: createpayment.clientSecret!,
       customer: createpayment.customer,

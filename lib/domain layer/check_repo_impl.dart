@@ -8,7 +8,7 @@ class CheckRepoImpl extends CheckRepo {
   final StripeService stripe = StripeService();
   @override
   Future<Either<Failure, void>> makepay(
-      {required PaymentIntendInputModel payment}) async {
+      {required PaymentIntentInputModel payment}) async {
     try {
       await stripe.MakePayment(payment);
       return right(null);

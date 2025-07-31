@@ -6,6 +6,7 @@ import 'package:stripe_payment/data%20layer/models/amount_model/amount_model.dar
 import 'package:stripe_payment/data%20layer/models/amount_model/details.dart';
 import 'package:stripe_payment/data%20layer/models/item_list_model/item.dart';
 import 'package:stripe_payment/data%20layer/models/item_list_model/item_list_model.dart';
+import 'package:stripe_payment/presentation%20layer/views/custom_button_sheet.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen1/custom_button.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen2/payment_methods.dart';
 import 'package:stripe_payment/presentation%20layer/views/screen3/thank_views.dart';
@@ -15,7 +16,7 @@ class PaySheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return const Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -24,13 +25,14 @@ class PaySheet extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          CustomButton(
-            text: 'PAY',
-            onPress: () {
-              // var transcationData = getTransctionData();
-              // excutepaypal(context, transcationData);
-            },
-          ),
+          CustomButtonSheet(),
+          // CustomButton(
+          //   text: 'PAY',
+          //   onPress: () {
+          //     // var transcationData = getTransctionData();
+          //     // excutepaypal(context, transcationData);
+          //   },
+          // ),
           const SizedBox(
             height: 10,
           ),

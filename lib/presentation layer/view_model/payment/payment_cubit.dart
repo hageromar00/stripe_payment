@@ -8,7 +8,7 @@ part 'payment_state.dart';
 class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit(this.repo) : super(PaymentInitial());
   final CheckRepo repo;
-  Future givePayment(PaymentIntendInputModel pay) async {
+  Future givePayment(PaymentIntentInputModel pay) async {
     emit(PaymentLoad());
     var data = await repo.makepay(payment: pay);
     data.fold((l) => emit(PaymentFail(errMessage: l.error)),
