@@ -19,10 +19,7 @@ API communication is handled efficiently using **Dio**, ensuring smooth and reli
 - **Flutter** (UI)
 - **Dart** (Programming Language)
 - **Stripe** (Card payments & saved cards)
-- **PayPal SDK / REST API**
+- **PayPal I**
 - **Dio** (HTTP Client for API calls)
 - **Clean Architecture** (Separation of concerns)
 - **State Management**: Cubit 
-- **Backend** (Optional, for Stripe Webhooks or PayPal verification)
-
----
